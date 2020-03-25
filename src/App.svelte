@@ -1,11 +1,18 @@
 <script>
 	import NetworkCanvas from './NetworkCanvas.svelte'
+	import { dbInit } from './stores'
+	import '../node_modules/bulma/css/bulma.css'
 
 	let nodes, edges
 	let loading = load()
 
 	function load() {
-		return fetch('./data.json').then(res => res.json())
+		return fetch('./data.json')
+			.then(res => res.json())
+			.then(data => {
+				dbInit(data)
+				return data
+			})
 	}
 </script>
 

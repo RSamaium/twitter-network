@@ -18,8 +18,6 @@
     geometry.vertices.push(new THREE.Vector3(targetPos[0], targetPos[1], 0));
   }
 
-  const scene = new THREE.Scene();
-
   const material = new THREE.LineBasicMaterial({
     color: 0xffffff,
     linewidth: 0.002,

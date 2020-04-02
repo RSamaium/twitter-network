@@ -137,8 +137,9 @@
     animate();
   });
 
-  function moveTo(node) {
-     console.log(scene.children[1])
+  function moveTo({ detail }) {
+    const { node } = detail
+    //camera.position.set(node.p[0], node.p[1], 0);
   }
 </script>
 

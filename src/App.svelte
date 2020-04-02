@@ -10,8 +10,11 @@
 		return fetch('./data.json')
 			.then(res => res.json())
 			.then(data => {
-				dbInit(data)
-				return data
+				const nodes = dbInit(data.n)
+				return {
+					nodes,
+					edges: data.e
+				}
 			})
 	}
 </script>
@@ -21,7 +24,7 @@
 		<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
 	</div>
 {:then result}
-	<NetworkCanvas nodes={result.n} edges={result.e} />
+	<NetworkCanvas nodes={result.nodes} edges={result.edges} />
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}

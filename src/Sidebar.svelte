@@ -2,7 +2,7 @@
   import clsx from "clsx";
   import { createEventDispatcher } from 'svelte';
   import { Field, Input, Button } from "svelma";
-  import { db, dataById } from "./stores";
+  import { db, nodes } from "./stores";
 
   const dispatch = createEventDispatcher();
 
@@ -16,11 +16,11 @@
   function search(event) {
     const { value } = event.detail.target;
     if (value == "") return;
-    found = db.search(value, 10).map(id => dataById.get(id));
+    found = db.search(value, 10).map(id => nodes.get(id));
   }
 
   function centerTo() {
-    const [node] = db.search(name, 1).map(id => dataById.get(id));
+    const [node] = db.search(name, 1).map(id => nodes.get(id));
     if (!node) {
       err = 'Impossible à trouver ce compte'
     }

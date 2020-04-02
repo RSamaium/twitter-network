@@ -60,7 +60,7 @@
     depthTest: true
   });
 
-  const nodesLength = nodes.length;
+  const nodesLength = nodes.size;
   const positions = new Float32Array(nodesLength * 3);
   const colors = new Float32Array(nodesLength * 3);
   const sizes = new Float32Array(nodesLength);
@@ -73,37 +73,37 @@
   // Just test
   const nodeBySize = {};
 
-  for (let i = 0; i < nodesLength; i++) {
-    const { p: nodePosition, c: nodeColor, s: nodeSize, l: nodeLabel } = nodes[
-      i
-    ];
+  let i = 0
+  for (let [id, node] of nodes) {
 
-    vertex.x = nodePosition[0];
-    vertex.y = nodePosition[1];
+    vertex.x = node.x;
+    vertex.y = node.y;
     vertex.z = 0;
     vertex.toArray(positions, i * 3);
 
-    color.setRGB(+nodeColor[0] / 255, +nodeColor[1] / 255, +nodeColor[2] / 255);
+    color.setRGB(...node.getRGB());
     color.toArray(colors, i * 3);
 
-    sizes[i] = nodeSize / 4;
+    sizes[i] = node.size;
 
     const text = document.createElement("div");
     const labelComponent = new Label({
       target: text,
       props: {
-        name: nodeLabel
+        name: node.label
       }
     });
 
     const label = new CSS2DObject(text);
     label.position.copy(vertex);
 
-    // TODO, Test
+   /* // TODO, Test
     if (nodeSize == 600) labelContainer.add(label);
 
     // Just test
     nodeBySize[nodeSize] = label;
+    */
+    i++
   }
 
   const geometry = new THREE.BufferGeometry();

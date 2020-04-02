@@ -12,10 +12,10 @@
 
   for (let edge of edges) {
     const { s: source, t: target } = edge;
-    const sourcePos = nodes[source].p;
-    const targetPos = nodes[target].p;
-    geometry.vertices.push(new THREE.Vector3(sourcePos[0], sourcePos[1], 0));
-    geometry.vertices.push(new THREE.Vector3(targetPos[0], targetPos[1], 0));
+    const sourcePos = nodes.get(source);
+    const targetPos = nodes.get(target);
+    geometry.vertices.push(new THREE.Vector3(sourcePos.x, sourcePos.y, 0));
+    geometry.vertices.push(new THREE.Vector3(targetPos.x, targetPos.y, 0));
   }
 
   const material = new THREE.LineBasicMaterial({

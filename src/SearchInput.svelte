@@ -125,7 +125,7 @@
 <div class="container">
   <input
     type="text"
-    placeholder="Search..."
+    placeholder="Chercher..."
     on:blur
     on:focus
     on:keydown

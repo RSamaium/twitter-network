@@ -1,8 +1,7 @@
 <script>
 	import NetworkCanvas from './NetworkCanvas.svelte'
 	import { dbInit } from './stores'
-	import '../node_modules/bulma/css/bulma.css'
-
+	
 	let nodes, edges
 	let loading = load()
 
@@ -16,6 +15,9 @@
 					edges: data.e
 				}
 			})
+			.catch (err => {
+				console.error(err)
+			})
 	}
 </script>
 
@@ -26,5 +28,5 @@
 {:then result}
 	<NetworkCanvas nodes={result.nodes} edges={result.edges} />
 {:catch error}
-	<p style="color: red">{error.message}</p>
+	<p style="color: red">Error</p>
 {/await}

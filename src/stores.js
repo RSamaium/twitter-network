@@ -8,13 +8,23 @@ import NetWorkNode from './node'
 
 export let db = FlexSearch.create()
 export let nodes = new Map()
-export let route = new Graph()
+export let route
+
+const graph = new Map()
+
+export let nodeSelected = writable({
+    start: undefined,
+    end: undefined,
+    path: undefined
+})
+export let nodeToChange = writable('start')
 
 export const dbInit = array => {
     for (let data of array) {
-        const node = new NetWorkNode(data, db, route)
+        const node = new NetWorkNode(data, db, graph)
         nodes.set(node.id, node)
     }
+    route = new Graph(graph)
     return nodes
 }
 

@@ -1,51 +1,68 @@
 <script>
   import clsx from "clsx";
-  import { createEventDispatcher } from 'svelte';
-  import { Field, Input, Button } from "svelma";
+  import { get } from 'svelte/store';
+  import { createEventDispatcher } from "svelte";
   import { db, nodes } from "./stores";
+  import SearchInput from "./SearchInput.svelte";
+  import LinkPanel from "./LinkPanel.svelte";
+  import { nodeSelected, route, nodeToChange } from "./stores.js";
 
   const dispatch = createEventDispatcher();
 
   let name;
   let found = [];
   let dropdownShow = false;
-  let err = null
+  let err = null;
+  let currentSearch = "";
 
   $: dropdownStyle = clsx(dropdownShow ? "display: block" : "display: none");
 
   function search(event) {
-    const { value } = event.detail.target;
-    if (value == "") return;
-    found = db.search(value, 10).map(id => nodes.get(id));
+    if (event.keyCode != 13) return;
+    if (currentSearch == "") return;
+    found = db.search(currentSearch, 10).map(id => nodes.get(id));
+    centerTo();
   }
 
   function centerTo() {
-    const [node] = db.search(name, 1).map(id => nodes.get(id));
+    const [node] = db.search(currentSearch, 1).map(id => nodes.get(id));
     if (!node) {
-      err = 'Impossible à trouver ce compte'
+      err = "Impossible à trouver ce compte";
     }
-    dispatch('search', {
-			 node
-		});
+    nodeSelected.update(obj => {
+      const prop = get(nodeToChange)
+      const firstTime = !obj.start;
+        obj[prop] = node;
+        if (firstTime) {
+          nodeToChange.update(_ => "end");
+        }
+        if (obj.start && obj.end) {
+          const ret = route.path(obj.start.id, obj.end.id);
+          obj.path = ret.map(id => nodes.get(id));
+          obj.path.pop()
+          obj.path.shift()
+        }
+      return obj;
+    });
+    currentSearch = ''
+    dispatch("search", {
+      node
+    });
   }
 </script>
 
 <style>
-  .sidebar {
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-    top: 0px;
-    width: 400px;
-    background-color: white;
-  }
-
   .dropdown-menu {
     width: 100%;
   }
 </style>
 
-<div class="sidebar">
+<div class="searchBar">
+  <SearchInput on:keypress={search} bind:value={currentSearch} />
+  <LinkPanel on:change />
+</div>
+
+<!--<div class="sidebar">
   <section class="hero">
     <div class="hero-body">
       <div class="container">
@@ -76,4 +93,4 @@
       </div>
     </div>
   </section>
-</div>
+</div>-->

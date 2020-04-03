@@ -1,25 +1,42 @@
 export default class NetWorkNode {
-    constructor(obj, db, route) {
+    constructor(obj, db, grapĥ) {
         this.db = db
-        this.route = route
-
+ 
         this.x = obj.p[0]
-        this.y = obj.p[1]
+        this.y = -obj.p[1]
         this._size = obj.s
         this.label = obj.l
-        this.color = obj.c
+        this._color = obj.c
         this.otherNode = obj.n
         this.id = obj.i
 
         this.db.add(this.id, this.label)
-        this.route.addNode(this.id, { [this.otherNode]: 1 })
-    }
 
-    getRGB() {
-        return this.color.map(c => c / 255)
+        this.links = new Map()
+
+        grapĥ.set(this.id, this.links)
     }
 
     get size() {
         return this._size / 4
+    }
+
+    get color() {
+        function rgb2hex(rgb) {
+            rgb = rgb.match(
+                /^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i
+            );
+            return rgb && rgb.length === 4 ?
+                "#" +
+                ("0" + parseInt(rgb[1], 10).toString(16)).slice(-2) +
+                ("0" + parseInt(rgb[2], 10).toString(16)).slice(-2) +
+                ("0" + parseInt(rgb[3], 10).toString(16)).slice(-2) :
+                "";
+        }
+        return rgb2hex(`rgb(${this._color[0]}, ${this._color[1]}, ${this._color[2]})`)
+    }
+
+    addLink(target) {
+        this.links.set(target, 1)
     }
 }

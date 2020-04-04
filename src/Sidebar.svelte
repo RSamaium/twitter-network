@@ -1,11 +1,11 @@
 <script>
   import clsx from "clsx";
-  import { get } from 'svelte/store';
+  import { get } from "svelte/store";
   import { createEventDispatcher } from "svelte";
   import { db, nodes } from "./stores";
   import SearchInput from "./SearchInput.svelte";
   import LinkPanel from "./LinkPanel.svelte";
-  import { nodeSelected, route, nodeToChange } from "./stores.js";
+  import { nodeSelected, pathFinding, nodeToChange } from "./stores.js";
 
   const dispatch = createEventDispatcher();
 
@@ -30,24 +30,29 @@
       err = "Impossible à trouver ce compte";
     }
     nodeSelected.update(obj => {
-      const prop = get(nodeToChange)
+      const prop = get(nodeToChange);
       const firstTime = !obj.start;
-        obj[prop] = node;
-        if (firstTime) {
-          nodeToChange.update(_ => "end");
-        }
-        if (obj.start && obj.end) {
-          const ret = route.path(obj.start.id, obj.end.id);
-          obj.path = ret.map(id => nodes.get(id));
-          obj.path.pop()
-          obj.path.shift()
-        }
+      let path
+      obj[prop] = node;
+      if (firstTime) {
+        nodeToChange.update(_ => "end");
+      }
+      if (obj.start && obj.end) {
+        /*const ret = route.path(obj.start.id, obj.end.id);
+        obj.path = ret.map(id => nodes.get(id));
+        obj.path.pop();
+        obj.path.shift();
+        path = [obj.start, ...obj.path, obj.end]*/
+        pathFinding.find(obj.start.id, obj.end.id)
+       
+      }
+      dispatch("search", {
+        node,
+        path
+      });
       return obj;
     });
-    currentSearch = ''
-    dispatch("search", {
-      node
-    });
+    currentSearch = "";
   }
 </script>
 

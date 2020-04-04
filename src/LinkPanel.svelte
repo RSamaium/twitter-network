@@ -1,7 +1,9 @@
 <script>
   import { createEventDispatcher } from "svelte";
-  import { nodeSelected, nodeToChange } from "./stores.js";
+  import { nodeSelected, nodeToChange, pathFinding } from "./stores.js";
   import { get } from 'svelte/store';
+
+  let nodesPath = pathFinding.nodesPath
 
   const dispatch = createEventDispatcher();
 
@@ -28,9 +30,9 @@
     <div class="ui threaded comments">
       <div class="comment">
         <a class="ui blue { $nodeToChange == 'start' ? '' : 'basic' } label" on:click={labelClick($nodeSelected.start.id, 'start')}>{$nodeSelected.start.label}</a>
-        {#if $nodeSelected.end && $nodeSelected.path}
+        {#if $nodeSelected.end && $nodesPath.length > 0}
           <div class="comments">
-            {#each $nodeSelected.path as { label, id }}
+            {#each $nodesPath as { label, id }}
               <div class="comment">
                 <a class="ui basic label" on:click={labelClick(id)}>{label}</a>
               </div>

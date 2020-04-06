@@ -38,13 +38,8 @@
         nodeToChange.update(_ => "end");
       }
       if (obj.start && obj.end) {
-        /*const ret = route.path(obj.start.id, obj.end.id);
-        obj.path = ret.map(id => nodes.get(id));
-        obj.path.pop();
-        obj.path.shift();
-        path = [obj.start, ...obj.path, obj.end]*/
+        pathFinding.nodesPath.reset()
         pathFinding.find(obj.start.id, obj.end.id)
-       
       }
       dispatch("search", {
         node,

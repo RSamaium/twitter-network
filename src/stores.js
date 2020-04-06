@@ -11,18 +11,25 @@ export let nodes = new Map()
 const worker = new Worker('worker.js')
 
 worker.onerror = function(err) {
-    console.log(err)
+    console.error(err)
 }
 
+const { subscribe, set } = writable([])
+
 export const pathFinding = {
-    nodesPath: readable([], function start (set) {
-        worker.onmessage = (e) => {
-            const path = e.data.map(id => nodes.get(id));
-            path.pop();
-            path.shift();
-            set(path)
+    nodesPath: {
+        subscribe,
+        init() {
+            worker.onmessage = (e) => {
+                const path = e.data.map(id => nodes.get(id));
+                set(path)
+            }
+        },
+        set,
+        reset() {
+            set([])
         }
-    }),
+    },
     find(start, end) {
         worker.postMessage({
             type: 'path',
@@ -31,6 +38,8 @@ export const pathFinding = {
         })
     }
 }
+
+pathFinding.nodesPath.init()
 
 export let nodeSelected = writable({
     start: undefined,

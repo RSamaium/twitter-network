@@ -3,7 +3,13 @@
   import { nodeSelected, nodeToChange, pathFinding } from "./stores.js";
   import { get } from 'svelte/store';
 
-  let nodesPath = pathFinding.nodesPath
+  let nodesPath = []
+
+  pathFinding.nodesPath.subscribe(path => {
+      nodesPath = path
+      nodesPath.pop()
+      nodesPath.shift()
+  })
 
   const dispatch = createEventDispatcher();
 
@@ -27,12 +33,18 @@
 
 {#if $nodeSelected.start}
   <div class="ui segment panel">
+    <h1 class="ui header">Degré de séparation</h1>
+    {#if $nodeSelected.end && nodesPath.length == 0}
+      <div class="ui active inverted dimmer">
+        <div class="ui text loader">Recherche du degré de séparation</div>
+      </div>
+    {/if}
     <div class="ui threaded comments">
       <div class="comment">
         <a class="ui blue { $nodeToChange == 'start' ? '' : 'basic' } label" on:click={labelClick($nodeSelected.start.id, 'start')}>{$nodeSelected.start.label}</a>
-        {#if $nodeSelected.end && $nodesPath.length > 0}
+        {#if $nodeSelected.end && nodesPath.length > 0}
           <div class="comments">
-            {#each $nodesPath as { label, id }}
+            {#each nodesPath as { label, id }}
               <div class="comment">
                 <a class="ui basic label" on:click={labelClick(id)}>{label}</a>
               </div>

@@ -10,8 +10,8 @@
   let element;
 
   const s = new sigma();
-  const memoryLines = [];
-  const memoryNodes = [];
+  let memoryLines = [];
+  let memoryNodes = [];
 
   onMount(() => {
     s.addRenderer({
@@ -58,8 +58,10 @@
   });
 
   pathFinding.nodesPath.subscribe(path => {
-    memoryNodes.forEach(node => s.graph.dropNode(node.id + "-node"));
-    memoryLines.forEach(edge => s.graph.dropEdge(edge.id));
+    memoryNodes.forEach(id => s.graph.dropNode(id));
+    memoryLines.forEach(id => s.graph.dropEdge(id));
+    memoryNodes = []
+    memoryLines = []
     for (let i = 0; i < path.length; i++) {
       const id = Math.random() + "";
       const node = path[i];

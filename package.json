@@ -1,6 +1,7 @@
 {
-  "name": "svelte-app",
+  "name": "twitter-network",
   "version": "1.0.0",
+  "author": "Samuel Ronce",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",

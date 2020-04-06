@@ -1,15 +1,8 @@
-# Twitter Network [Work in progress]
+# Twitter Network
 
 Twitter network detailed in the Fouloscopie video (Medhi Moussaid):
 
 https://www.youtube.com/watch?v=UX7YQ6m2r_o
-
-## Roadmap
-
-- Display names on nodes. Pay attention to performance
-- Display a sidebar allowing to
-    - search for a label and center the camera on the node
-    - See how many steps between 2 nodes
 
 ## Installation
 

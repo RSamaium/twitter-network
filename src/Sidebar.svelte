@@ -7,6 +7,7 @@
   import LinkPanel from "./LinkPanel.svelte";
   import { nodeSelected, pathFinding, nodeToChange } from "./stores.js";
   import notyf from './notification'
+  import GithubIcon from './GithubIcon.svelte'
 
   const dispatch = createEventDispatcher();
 
@@ -69,9 +70,18 @@
   .dropdown-menu {
     width: 100%;
   }
+
+  .github-icon {
+    position: absolute;
+    bottom: 20px;
+    right : 20px
+  }
 </style>
 
 <div class="searchBar">
   <SearchInput on:keypress={search} bind:value={currentSearch} />
   <LinkPanel on:change />
+  <div class="github-icon">
+    <GithubIcon width="30px" height="30px" href="https://github.com/RSamaium/twitter-network" />
+  </div>
 </div>

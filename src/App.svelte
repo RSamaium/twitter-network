@@ -24,6 +24,7 @@
 {#await loading}
 	<div class="loading">
 		<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+		<p style="color: white">Patientez, le chargement des données peut être un peu long...</p>
 	</div>
 {:then result}
 	<NetworkCanvas nodes={result.nodes} edges={result.edges} />

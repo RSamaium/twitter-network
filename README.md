@@ -22,7 +22,7 @@ https://www.youtube.com/watch?v=UX7YQ6m2r_o
 
 ## Technologies
 
-1. ThreeJS: In order to have a fluidity in the interaction with the network, we use WebGL with the ThreeJS library
+1. SigmaJS: In order to have a fluidity in the interaction with the network, we use WebGL with the SigmaJS library
 2. SvelteJS: Useful for inserting web components and interacting with forms and the network
 
 ## The data

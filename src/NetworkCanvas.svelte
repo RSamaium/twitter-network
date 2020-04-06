@@ -60,9 +60,9 @@
 
     notyf.open({
       type: 'info',
-      message: `Bienvenue sur l'interface interactive du réseau Twitter expliquée sur la 
+      message: `Bienvenue sur l'interface interactive du réseau Twitter expliqué sur la 
       <a href="https://www.youtube.com/watch?v=UX7YQ6m2r_o" target="_blank">vidéo Youtube de la chaîne Fouloscopie</a>. Le but est de 
-      trouver le degré de séparation entre deux 2 comptes Twitter. Pour commencer, rechercher un compte et tapez sur la touche Entrée.`
+      trouver le degré de séparation entre deux comptes Twitter. Pour commencer, recherchez un compte et tapez sur la touche Entrée.`
     });
   });
 
@@ -93,7 +93,7 @@
         size: 1
       });
     }
-    if (firstSearch && path.length > 2) {
+    if (firstSearch && path.length >= 2) {
       const nbAccount = path.length - 2
       const firstAccount = path[0].label
       const endAccount = path[path.length - 1].label
@@ -101,7 +101,7 @@
       notyf.open({
         type: 'info',
         message: `Super ! Sur le panneau en haut à droite de votre écran, vous avez ${nbAccount} compte${nbAccount> 1 ? 's': ''} séparant ${firstAccount} et ${endAccount}.
-        Vous pouvez aussi visualiser le chemin sur le graphe. Pour refaire une simulation, cliquez sur un nom en bleu sur le panneau de degré de séparation et rentrez à nouveau un nom dans la barre de recherche.`
+        Vous pouvez aussi visualiser le chemin sur le graphe. Pour refaire une simulation, cliquez sur un nom en bleu sur le panneau de degré de séparation et entrez à nouveau un nom dans la barre de recherche.`
       });
       firstSearch = false
     }

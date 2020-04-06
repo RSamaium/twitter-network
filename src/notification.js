@@ -3,7 +3,7 @@ import {
 } from "notyf";
 
 export default new Notyf({
-    duration: 20000,
+    duration: 30000,
     position: {
         x: 'center',
         y: 'top',

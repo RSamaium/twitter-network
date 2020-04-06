@@ -4,6 +4,7 @@ import {
 } from 'svelte/store';
 import FlexSearch from 'flexsearch'
 import NetWorkNode from './node'
+import notyf from './notification'
 
 export let db = FlexSearch.create()
 export let nodes = new Map()
@@ -11,6 +12,7 @@ export let nodes = new Map()
 const worker = new Worker('worker.js')
 
 worker.onerror = function(err) {
+    notyf.error('Une erreur est survenue lors du calculdu degré de séparation, veuillez réessayer.')
     console.error(err)
 }
 
@@ -21,6 +23,10 @@ export const pathFinding = {
         subscribe,
         init() {
             worker.onmessage = (e) => {
+                if (!e.data) {
+                    notyf.error('Impossible de trouver le degré de séparation entre les deux points.')
+                    return
+                }
                 const path = e.data.map(id => nodes.get(id));
                 set(path)
             }

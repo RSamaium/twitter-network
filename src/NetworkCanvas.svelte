@@ -3,6 +3,7 @@
   import sigma from "sigma";
   import Sidebar from "./Sidebar.svelte";
   import { pathFinding } from "./stores.js";
+  import notyf from './notification'
 
   export let nodes;
   export let edges;
@@ -12,6 +13,7 @@
   const s = new sigma();
   let memoryLines = [];
   let memoryNodes = [];
+  let firstSearch = true
 
   onMount(() => {
     s.addRenderer({
@@ -55,13 +57,20 @@
     }
 
     s.refresh();
+
+    notyf.open({
+      type: 'info',
+      message: `Bienvenue sur l'interface interactive du réseau Twitter expliquée sur la 
+      <a href="https://www.youtube.com/watch?v=UX7YQ6m2r_o" target="_blank">vidéo Youtube de la chaîne Fouloscopie</a>. Le but est de 
+      trouver le degré de séparation entre deux 2 comptes Twitter. Pour commencer, rechercher un compte et tapez sur la touche Entrée.`
+    });
   });
 
   pathFinding.nodesPath.subscribe(path => {
     memoryNodes.forEach(id => s.graph.dropNode(id));
     memoryLines.forEach(id => s.graph.dropEdge(id));
-    memoryNodes = []
-    memoryLines = []
+    memoryNodes = [];
+    memoryLines = [];
     for (let i = 0; i < path.length; i++) {
       const id = Math.random() + "";
       const node = path[i];
@@ -83,6 +92,18 @@
         color: "#ff000",
         size: 1
       });
+    }
+    if (firstSearch && path.length > 2) {
+      const nbAccount = path.length - 2
+      const firstAccount = path[0].label
+      const endAccount = path[path.length - 1].label
+      notyf.dismissAll()
+      notyf.open({
+        type: 'info',
+        message: `Super ! Sur le panneau en haut à droite de votre écran, vous avez ${nbAccount} compte${nbAccount> 1 ? 's': ''} séparant ${firstAccount} et ${endAccount}.
+        Vous pouvez aussi visualiser le chemin sur le graphe. Pour refaire une simulation, cliquez sur un nom en bleu sur le panneau de degré de séparation et rentrez à nouveau un nom dans la barre de recherche.`
+      });
+      firstSearch = false
     }
     s.refresh();
   });

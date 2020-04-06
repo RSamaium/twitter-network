@@ -6,28 +6,29 @@
   import SearchInput from "./SearchInput.svelte";
   import LinkPanel from "./LinkPanel.svelte";
   import { nodeSelected, pathFinding, nodeToChange } from "./stores.js";
+  import notyf from './notification'
 
   const dispatch = createEventDispatcher();
 
   let name;
-  let found = [];
   let dropdownShow = false;
   let err = null;
   let currentSearch = "";
+  let firstSearch = true
 
   $: dropdownStyle = clsx(dropdownShow ? "display: block" : "display: none");
 
   function search(event) {
     if (event.keyCode != 13) return;
     if (currentSearch == "") return;
-    found = db.search(currentSearch, 10).map(id => nodes.get(id));
     centerTo();
   }
 
   function centerTo() {
     const [node] = db.search(currentSearch, 1).map(id => nodes.get(id));
     if (!node) {
-      err = "Impossible à trouver ce compte";
+      notyf.error('Impossible à trouver ce compte Twitter')
+      return
     }
     nodeSelected.update(obj => {
       const prop = get(nodeToChange);
@@ -35,9 +36,22 @@
       let path
       obj[prop] = node;
       if (firstTime) {
+        notyf.dismissAll()
+        notyf.open({
+          type: 'info',
+          message: `Très bien ! Maintenant, faites à nouveau une recherche pour calculer le degré de séparation entre les deux comptes Twitter`
+        });
         nodeToChange.update(_ => "end");
       }
       if (obj.start && obj.end) {
+        if (firstSearch) {
+          notyf.dismissAll()
+          notyf.open({
+            type: 'info',
+            message: `Patientez, le calcul de degré de séparation est en cours`
+          });
+          firstSearch = false
+        }
         pathFinding.nodesPath.reset()
         pathFinding.find(obj.start.id, obj.end.id)
       }

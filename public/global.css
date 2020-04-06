@@ -63,3 +63,12 @@ body, .loading {
     transform: rotate(360deg);
   }
 }
+
+.notyf__message a {
+  color: white !important;
+  text-decoration: underline !important;
+}
+
+.notyf__message {
+  font-size: 15px;
+}

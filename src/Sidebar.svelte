@@ -16,6 +16,7 @@
   let err = null;
   let currentSearch = "";
   let firstSearch = true
+  let secondSearch = true
 
   $: dropdownStyle = clsx(dropdownShow ? "display: block" : "display: none");
 
@@ -33,25 +34,28 @@
     }
     nodeSelected.update(obj => {
       const prop = get(nodeToChange);
-      const firstTime = !obj.start;
+      const firstTime = !obj.start
       let path
       obj[prop] = node;
       if (firstTime) {
+        nodeToChange.set("end");
+      }
+      if (firstSearch) {
         notyf.dismissAll()
         notyf.open({
           type: 'info',
           message: `Très bien ! Maintenant, faites à nouveau une recherche pour calculer le degré de séparation entre les deux comptes Twitter`
         });
-        nodeToChange.update(_ => "end");
+        firstSearch = true
       }
       if (obj.start && obj.end) {
-        if (firstSearch) {
+        if (secondSearch) {
           notyf.dismissAll()
           notyf.open({
             type: 'info',
             message: `Patientez, le calcul de degré de séparation est en cours`
           });
-          firstSearch = false
+          secondSearch = false
         }
         pathFinding.nodesPath.reset()
         pathFinding.find(obj.start.id, obj.end.id)

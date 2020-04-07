@@ -72,19 +72,9 @@
     memoryLines.forEach(id => s.graph.dropEdge(id));
     memoryNodes = [];
     memoryLines = [];
-    for (let i = 0; i < path.length; i++) {
-      const id = Math.random() + "";
+    for (let i = 0; i < path.length - 1; i++) {
       const node = path[i];
-      memoryNodes.push(id + "-node");
-      s.graph.addNode({
-        id: id + "-node",
-        label: node.label,
-        x: node.x,
-        y: node.y,
-        size: node.size,
-        color: "#ff000"
-      });
-      if (i == path.length - 1) continue;
+      const id = Math.random() + "";
       memoryLines.push(id);
       s.graph.addEdge({
         id,
@@ -94,26 +84,48 @@
         size: 1
       });
     }
-    if (firstSearch && path.length >= 2) {
-      const nbAccount = path.length - 2;
-      const firstAccount = path[0].label;
-      const endAccount = path[path.length - 1].label;
-      notyf.dismissAll();
-      notyf.open({
-        type: "info",
-        message: `Super ! Sur le panneau en haut à droite de votre écran, vous avez ${nbAccount} compte${
-          nbAccount > 1 ? "s" : ""
-        } séparant ${firstAccount} et ${endAccount}.
+    if (path.length >= 2) {
+      const firstNode = path[0]
+      const lastNode = path[path.length - 1];
+      addTmpNode(firstNode);
+      addTmpNode(lastNode);
+      if (firstSearch) {
+        const nbAccount = path.length - 2;
+        const firstAccount = firstNode.label;
+        const endAccount = lastNode.label;
+        notyf.dismissAll();
+        notyf.open({
+          type: "info",
+          message: `Super ! Sur le panneau en haut à droite de votre écran, vous avez ${nbAccount} compte${
+            nbAccount > 1 ? "s" : ""
+          } séparant ${firstAccount} et ${endAccount}.
         Vous pouvez aussi visualiser le chemin sur le graphe. Pour refaire une simulation, cliquez sur un nom en bleu sur le panneau de degré de séparation et entrez à nouveau un nom dans la barre de recherche.`
-      });
-      firstSearch = false;
+        });
+        firstSearch = false;
+      }
     }
+
     s.refresh();
   });
+
+  function addTmpNode(node) {
+    const id = Math.random() + "";
+    memoryNodes.push(id + "-node");
+    s.graph.addNode({
+      id: id + "-node",
+      label: node.label,
+      x: node.x,
+      y: node.y,
+      size: node.size,
+      color: "#ff000"
+    });
+  }
 
   function moveTo({ detail }) {
     const { node, path } = detail;
     const n = s.graph.nodes(node.id);
+    addTmpNode(node);
+    s.refresh();
     sigma.misc.animation.camera(
       s.camera,
       {

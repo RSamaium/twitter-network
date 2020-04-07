@@ -25,6 +25,15 @@
       nodeToChange.update(_ => change)
     }
   }
+
+  function reset() {
+    pathFinding.nodesPath.reset()
+    nodeSelected.set({
+      start: undefined,
+      end: undefined
+    })
+    nodeToChange.set('start')
+  }
 </script>
 
 <style>
@@ -70,5 +79,6 @@
         </div>
       {/if}
     </div>
+    <button class="ui small blue fluid button" on:click={reset}>Recommencer</button>
   </div>
 {/if}

@@ -47,7 +47,7 @@
           type: 'info',
           message: `Très bien ! Maintenant, faites à nouveau une recherche pour calculer le degré de séparation entre les deux comptes Twitter`
         });
-        firstSearch = true
+        firstSearch = false
       }
       if (obj.start && obj.end) {
         if (secondSearch) {

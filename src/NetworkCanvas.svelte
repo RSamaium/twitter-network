@@ -75,6 +75,7 @@
     for (let i = 0; i < path.length - 1; i++) {
       const node = path[i];
       const id = Math.random() + "";
+      addTmpNode(path[i]);
       memoryLines.push(id);
       s.graph.addEdge({
         id,
@@ -87,7 +88,6 @@
     if (path.length >= 2) {
       const firstNode = path[0]
       const lastNode = path[path.length - 1];
-      addTmpNode(firstNode);
       addTmpNode(lastNode);
       if (firstSearch) {
         const nbAccount = path.length - 2;
@@ -121,10 +121,10 @@
     });
   }
 
-  function moveTo({ detail }) {
+  function moveTo({ detail }, isSearch = true) {
     const { node, path } = detail;
     const n = s.graph.nodes(node.id);
-    addTmpNode(node);
+    if (isSearch) addTmpNode(node);
     s.refresh();
     sigma.misc.animation.camera(
       s.camera,
@@ -144,7 +144,7 @@
           id: ev.detail
         }
       }
-    });
+    }, false);
   }
 </script>
 

@@ -9,7 +9,7 @@ function hide() {
 {#if display}
 <div class="ui segment">
     <i class="delete icon" on:click={hide}></i>
-    <img src="/images/drag-right.gif" class="ui avatar image"><span>Glisser: déplacer avec la souris</span>
+    <img src="/images/drag-right.gif" class="ui avatar image"><span>Déplacement: cliquez et déplacez avec la souris</span>
     <br>
     <img src="/images/scroll_down.gif" class="ui avatar image"><span>Zoom: molette de la souris ou double-clic</span>
 </div>

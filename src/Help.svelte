@@ -20,6 +20,7 @@ function hide() {
     position: relative;
     font-size: 12px;
     opacity: 0.8;
+    padding: 17px;
 }
 
 .delete {

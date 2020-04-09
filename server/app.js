@@ -28,4 +28,6 @@ app.post('/path', function (req, res) {
     res.json(foundPath.reverse().map(n => n.id))
 })
 
+app.use(express.static('public'))
+
 module.exports = app

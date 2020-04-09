@@ -14,7 +14,7 @@ const {
     set
 } = writable([])
 
-const ENDPOINT = location.hostname == 'localhost' ? 'http://localhost:8080/path' : ''
+const ENDPOINT = '/path'
 
 export const pathFinding = {
     nodesPath: {

@@ -47,7 +47,6 @@
     }
 
     for (let edge of edges) {
-      nodes.get(edge.s).addLink(edge.t);
       s.graph.addEdge({
         id: edge.i,
         source: edge.s,

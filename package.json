@@ -5,22 +5,30 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public"
+    "start": "sirv public",
+    "test": "mocha server/tests/*.spec.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",
+    "mocha": "^7.1.1",
     "rollup": "^1.20.0",
     "rollup-plugin-css-only": "^2.0.0",
     "rollup-plugin-livereload": "^1.0.0",
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-terser": "^5.1.2",
+    "supertest": "^4.0.2",
     "svelte": "^3.0.0",
     "svelte-preprocess": "^3.5.0"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "clsx": "^1.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "flexsearch": "^0.6.32",
+    "ngraph.graph": "^19.1.0",
+    "ngraph.path": "^1.3.1",
     "node-dijkstra": "^2.5.0",
     "node-sass": "^4.13.1",
     "notyf": "^3.5.1",

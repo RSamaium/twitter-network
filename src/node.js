@@ -1,5 +1,5 @@
 export default class NetWorkNode {
-    constructor(obj, db, worker) {
+    constructor(obj, db) {
         this.db = db
  
         this.x = obj.p[0]
@@ -11,13 +11,6 @@ export default class NetWorkNode {
         this.id = obj.i
 
         this.db.add(this.id, this.label)
-
-        this.links = new Map()
-        this.worker = worker
-        this.worker.postMessage({
-            type: 'initNode',
-            id: this.id
-        })
     }
 
     get size() {
@@ -39,11 +32,4 @@ export default class NetWorkNode {
         return rgb2hex(`rgb(${this._color[0]}, ${this._color[1]}, ${this._color[2]})`)
     }
 
-    addLink(target) {
-        this.worker.postMessage({
-            type: 'addNode',
-            target,
-            id: this.id
-        })
-    }
 }

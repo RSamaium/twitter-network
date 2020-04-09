@@ -1,0 +1,12 @@
+config:
+  target: "http://localhost:8080"
+  phases:
+    - duration: 10
+      arrivalRate: 100
+scenarios:
+  - flow:
+      - post:
+          url: "/path"
+          json:
+            start: 1
+            end: 31

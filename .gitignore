@@ -2,3 +2,4 @@
 /public/build/
 .deploy
 .DS_Store
+/allNodes19k.csv/

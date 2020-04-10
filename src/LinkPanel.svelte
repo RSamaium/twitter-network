@@ -22,7 +22,7 @@
     dispatch("change", id);
     const hasEnd = get(nodeSelected).end
     if (change && hasEnd) {
-      nodeToChange.update(_ => change)
+      nodeToChange.set(change)
     }
   }
 
@@ -33,6 +33,17 @@
       end: undefined
     })
     nodeToChange.set('start')
+  }
+
+  function reverse() {
+    pathFinding.nodesPath.reset()
+    nodeSelected.update(n => {
+       pathFinding.find(n.end.id, n.start.id)
+       return {
+         start: n.end,
+         end: n.start
+       }
+    })
   }
 </script>
 
@@ -79,6 +90,11 @@
         </div>
       {/if}
     </div>
-    <button class="ui small blue fluid button" on:click={reset}>Recommencer</button>
+    <div class="ui one column centered grid">
+      <div class="row">
+          <button class="ui small blue button" on:click={reverse} disabled={!$nodeSelected.end}>Inverser</button>
+          <button class="ui small blue button" on:click={reset}>Recommencer</button>
+      </div>
+    </div>
   </div>
 {/if}

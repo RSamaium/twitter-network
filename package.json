@@ -1,6 +1,6 @@
 {
   "name": "twitter-network",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "author": "Samuel Ronce",
   "scripts": {
     "build": "rollup -c",

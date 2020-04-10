@@ -10,13 +10,15 @@ https://www.youtube.com/watch?v=UX7YQ6m2r_o
 
 1. Clone the project
 2. Type the command line: `npm install`
-3. Start the local server: `npm run dev`
-4. Go to the port given by the previous command
+3. Start the SvelteJS server: `npm run dev`
+4. Start Express Server: `node server/www`
+4. Go to the `localhost:8080`
 
 ## Technologies
 
 1. SigmaJS: In order to have a fluidity in the interaction with the network, we use WebGL with the SigmaJS library
 2. SvelteJS: Useful for inserting web components and interacting with forms and the network
+3. ExpressJS: For Server
 
 ## The data
 

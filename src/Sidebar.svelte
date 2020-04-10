@@ -33,6 +33,14 @@
       notyf.error('Impossible à trouver ce compte Twitter')
       return
     }
+    const nodesSelected = get(nodeSelected);
+    if (nodesSelected.start) {
+      if (nodesSelected.start.id == node.id ||
+      (nodesSelected.end && node.id  == nodesSelected.end.id)) {
+        notyf.error('Vous essayez de calculer le degré de séparation sur le même compte. Recherchez un autre compte')
+        return
+      }
+    }
     nodeSelected.update(obj => {
       const prop = get(nodeToChange);
       const firstTime = !obj.start
